@@ -1,0 +1,49 @@
+buildscript {
+    repositories {
+        mavenCentral()
+    }
+    dependencies {
+        classpath 'org.junit.platform:junit-platform-gradle-plugin:1.1.0'
+    }
+}
+
+plugins {
+    id 'com.zyxist.chainsaw' version '0.3.1'
+}
+
+apply plugin: 'java-library'
+apply plugin: 'org.junit.platform.gradle.plugin'
+
+repositories {
+    mavenCentral()
+}
+
+javaModule {
+    name = 'org.example.kafka'
+}
+
+ext {
+    kafkaVersion = '1.0.0_1'
+    slf4jVersion = '1.7.25'
+
+    apiguardianVersion = '1.0.0'
+    logbackVersion = '1.2.3'
+    junitVersion = '5.1.0'
+}
+
+dependencies {
+
+    api group: 'org.apache.servicemix.bundles', name: 'org.apache.servicemix.bundles.kafka-clients', version: kafkaVersion
+    api ('org.trellisldp:trellis-api:0.6.1')
+
+    implementation group: 'org.slf4j', name: 'slf4j-api', version: slf4jVersion
+
+    testImplementation group: 'org.apiguardian', name: 'apiguardian-api', version: apiguardianVersion
+    testImplementation group: 'org.junit.jupiter', name: 'junit-jupiter-engine', version: junitVersion
+}
+
+test {
+    useJUnitPlatform {
+        includeEngines 'junit-jupiter'
+    }
+}
